@@ -2681,10 +2681,6 @@ html:has(.drawer-toggle:checked) {
   overflow-y: auto;
 }
 
-.block {
-  display: block;
-}
-
 .inline {
   display: inline;
 }
@@ -2695,10 +2691,6 @@ html:has(.drawer-toggle:checked) {
 
 .grid {
   display: grid;
-}
-
-.hidden {
-  display: none;
 }
 
 .h-10 {
@@ -2867,11 +2859,6 @@ html:has(.drawer-toggle:checked) {
   padding-bottom: 1.5rem;
 }
 
-.py-4 {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
 .text-center {
   text-align: center;
 }
@@ -3005,23 +2992,11 @@ html:has(.drawer-toggle:checked) {
   }
 }
 
-.dark\:block:where([data-theme="black"], [data-theme="black"] *) {
-  display: block;
-}
-
-.dark\:inline:where([data-theme="black"], [data-theme="black"] *) {
-  display: inline;
-}
-
 .dark\:hidden:where([data-theme="black"], [data-theme="black"] *) {
   display: none;
 }
 
 [data-theme=black] .\[\[data-theme\=black\]_\&\]\:hidden {
-  display: none;
-}
-
-[data-theme=dark] .\[\[data-theme\=dark\]_\&\]\:hidden {
   display: none;
 }
 
