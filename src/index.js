@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 AppDataSource.initialize().then(() => {
-    app.listen(PORT, () => console.log("Server running on 3005 : http://myshare.haydar.dev/"))
+    app.listen(PORT, () => console.log(`Server running on ${process.env.PORT} : http://myshare.haydar.dev/`))
 }).catch((error) => {
     console.log("Database err:", error.message)
 })

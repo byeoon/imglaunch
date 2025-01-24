@@ -11,13 +11,13 @@ router.post("/users", async (req, res) => {
         const existing = await userRepo.findOneBy({ email })
 
         if (existing) {
-            return res.status(400).json({ message : "User exists"})
+            return res.status(400).json({ message : "User already exists!"})
         }
 
         const user = userRepo.create({username, email, password});
         const newuser = await userRepo.save(user)
 
-        res.status(201).json({ message: "created", user : newuser})
+        res.status(201).json({ message: "User created.", user : newuser})
         
     } catch {
         console.log(error)
