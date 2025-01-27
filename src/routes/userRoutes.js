@@ -5,11 +5,9 @@ const router = express.Router();
 
 router.post("/users", async (req, res) => {
     const { username, email, password } = req.body;
-
     try {
         const userRepo = AppDataSource.getRepository("User")
         const existing = await userRepo.findOneBy({ email })
-
         if (existing) {
             return res.status(400).json({ message : "User already exists!"})
         }
