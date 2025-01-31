@@ -37,11 +37,9 @@ AppDataSource.initialize().then(() => {
     console.log("Database err:", error.message)
 })
 
+// TODO: fix so it only does it to .html files because it even does it to API calls :(
+// TODO: add the 403 and 500 fallback
 app.use(function(req, res, next) {
-    res.status(404);
-    if (req.accepts('.html')) {
-      res.render('404', { url: "https://myshare.haydar.dev/404.html" });
-      return;
-    }
+    res.status(404).render('404', { url: "https://myshare.haydar.dev/404.html" });
   });
 

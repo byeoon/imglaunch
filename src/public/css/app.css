@@ -2733,6 +2733,10 @@ html:has(.drawer-toggle:checked) {
   width: 15rem;
 }
 
+.w-1 {
+  width: 0.25rem;
+}
+
 .max-w-md {
   max-width: 28rem;
 }
