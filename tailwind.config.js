@@ -17,7 +17,6 @@ module.exports = {
       },
       "black",
       "light",
-      "dark" // fallback
     ],
     darkTheme: "black",
     
