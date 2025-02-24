@@ -23,5 +23,15 @@ router.post("/users", async (req, res) => {
     }
 })
 
+router.post('/users/login',async(req,res) => {
+    const { username, email, password } = req.body;
+    const userRepo = AppDataSource.getRepository("User")
+    const user = await userRepo.findOne({ email: email });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+  })
+
 module.exports = router;
 
