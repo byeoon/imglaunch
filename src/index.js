@@ -8,12 +8,16 @@ const userRoutes = require('./routes/userRoutes')
 const statsRoutes = require('./routes/statsRoutes')
 const notesRoutes = require('./routes/notesRoutes')
 
-// TODO: Remove Consolidate and Swig.
-// There are multiple unfixable vulnerabilities with these two.
-var cons = require('consolidate');
-
 const app = express();
 const path = require('path')
+
+var errorHandler = require('express-error-handler'),
+  handler = errorHandler({
+    views: {
+      '404': 'https://myshare.haydar.dev/404.html',
+      '500': 'https://myshare.haydar.dev/500.html'
+    }
+  });
 
 const PORT = process.env.PORT || 3010
 const HOST = process.env.HOST || "127.0.0.1"
@@ -25,7 +29,6 @@ app.use("/api", notesRoutes)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.engine('html', cons.swig)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
@@ -39,8 +42,7 @@ AppDataSource.initialize().then(() => {
     console.log("Database err:", error.message)
 })
 
-// TODO: add the 403 and 500 fallback
-app.use(function(req, res, next) {
-    res.status(404).render('404', { url: "https://myshare.haydar.dev/404.html" });
-  });
+app.use( errorHandler.httpError(404) );
+app.use( errorHandler.httpError(500) );
+  
 
