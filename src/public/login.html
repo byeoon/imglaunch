@@ -93,10 +93,7 @@ async function postToServer() {
         throw new Error('err');
         alert(err);
       }
-      const responseData = await response.json();
-      console.log('user saved:', responseData);
-      alert('logged in successfully ' + responseData);
-      window.location.replace("https://myshare.haydar.dev/dashboard.html");
+      console.log(userData);
     } catch (error) {
       console.error('err:', error);
       window.location.replace("https://myshare.haydar.dev/login.html");
