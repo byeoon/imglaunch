@@ -41,11 +41,9 @@ router.post('/users/login',async(req,res) => {
         return res.status(401).json({ error: 'Not the same password' });
     }
 
-    console.log("is the same??");
     const token = jwt.sign({ email: user.email }, 'secret');
     res.status(200).json({ token });
-    console.log(token);
-  //  window.localStorage.setItem("token", token); // do not give this out to anyone!
+    console.log("New user signed in with token: " + token);
   })
 
 

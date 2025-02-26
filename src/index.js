@@ -48,9 +48,9 @@ AppDataSource.initialize().then(() => {
 })
 
 const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization'];
+    const token = req.headers['Authorization'];
     if (!token) {
-        console.log("no token for some reason?");
+        console.log("Not signed in with a token.");
       return res.status(401).json({ error: 'Unauthorized' });
     }
   
