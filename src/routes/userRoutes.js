@@ -17,7 +17,9 @@ router.post("/users", async (req, res) => {
 
         const user = userRepo.create({username, email, password});
         const newuser = await userRepo.save(user)
-        res.status(201).json({ message: "User created.", user : newuser})
+        
+        const userToken = jwt.sign({ email: user.email }, 'secret');
+        res.status(201).json({ message: "User created.", user : newuser, token: userToken})
     } catch(error) {
         console.log(error);
         res.status(500).json({message : "internal error"})
@@ -28,14 +30,15 @@ router.post('/users/login',async(req,res) => {
     const { email, password } = req.body;
     const userRepo = AppDataSource.getRepository("User");
     const user = await userRepo.findOneBy({ email: email });
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    // TODO: Inverse this, will cause an error if there is no email that exists. 
+
     // Could just add better handling but not now
     if (!user) {
         console.log("no exist.");
         return res.status(401).json({ error: 'Invalid credentials' });
     }
 
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    
     if (!passwordMatch) {
         console.log("not the same");
         return res.status(401).json({ error: 'Not the same password' });

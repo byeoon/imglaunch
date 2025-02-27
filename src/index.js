@@ -32,13 +32,14 @@ app.use("/api", userRoutes)
 app.use("/api", statsRoutes)
 app.use("/api", notesRoutes)
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'html');
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
 });
 
 AppDataSource.initialize().then(() => {
@@ -47,23 +48,26 @@ AppDataSource.initialize().then(() => {
     console.log("Database err:", error.message)
 })
 
-const verifyToken = (req, res, next) => {
-    const token = req.headers['Authorization'];
-    if (!token) {
-        console.log("Not signed in with a token.");
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-  
+const verifyToken = (req, res, next) => {  
+  const token = req.headers['Authorization'];
+  if (!token) {
+    console.log(req.headers);
+      console.log("Not signed in with a token.");
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
     jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
+        console.log("Invalid token.");
         return res.status(401).json({ error: 'Unauthorized' });
       }
       req.user = decoded;
+      console.log("Valid token, " + decoded);
       next();
     });
-  };
+};
 
-app.get('/api/secretadminthing', verifyToken, async (req, res) => {
+app.get('/api/email', verifyToken, async (req, res) => {
+  const token = req.headers['Authorization'];
     try {
         const user = await userRepo.findOneBy({ email: req.user.email });
         if (!user) {
