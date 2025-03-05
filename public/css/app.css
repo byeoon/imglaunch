@@ -1756,6 +1756,13 @@
   .z-1 {
     z-index: 1;
   }
+  .stat-figure {
+    grid-column-start: 2;
+    grid-row: span 3 / span 3;
+    grid-row-start: 1;
+    place-self: center;
+    justify-self: flex-end;
+  }
   .hero {
     display: grid;
     width: 100%;
@@ -2451,6 +2458,9 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+  .border-base-300 {
+    border-color: var(--color-base-300);
+  }
   .bg-base-100 {
     background-color: var(--color-base-100);
   }
@@ -2710,8 +2720,13 @@
       flex-direction: row;
     }
   }
+  .dark\:invisible {
+    &:where([data-theme=dark], [data-theme=dark] *) {
+      visibility: hidden;
+    }
+  }
   .dark\:hidden {
-    @media (prefers-color-scheme: dark) {
+    &:where([data-theme=dark], [data-theme=dark] *) {
       display: none;
     }
   }
