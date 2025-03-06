@@ -90,28 +90,3 @@
     </aside>
   </footer>
 </html>
-<script src="js/aos.js"></script>
-<script>
-  AOS.init({});
-
-  $.get("https://myshare.haydar.dev/api/stats", (data, status) => {
-    document.getElementById("totalUserValue").innerHTML = data.totalUsers;
-    document.getElementById("totalNotesValue").innerHTML = data.totalNotes;
-    console.log(data);
-    console.log(status);
-  });
-  
-  window.onload = function () {
-    const images = [
-      "https://myshare.haydar.dev/img/background.png",
-      "https://myshare.haydar.dev/img/background2.png",
-      "https://myshare.haydar.dev/img/background3.png"
-    ];
-    var choose = Math.floor(Math.random() * images.length);
-    document.getElementById("bg").style.backgroundImage = `url("${images[choose]}")`;
-    console.log(images[choose].toString());
-  };
-
-  
-  // code for if the person is auth'd they can instantly go to the dashboard
-</script>

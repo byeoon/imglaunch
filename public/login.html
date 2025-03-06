@@ -142,10 +142,7 @@
 
       localStorage.setItem("token", token); // KEEP THIS SAFE!
       const value = localStorage.getItem("token");
-
-      const tokenJSON = {
-        token: token
-      };
+      alert("Token saved in storage: " + value);
     } catch (error) {
       console.error("err:", error);
       window.location.replace("https://myshare.haydar.dev/login.html");

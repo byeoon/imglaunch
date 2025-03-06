@@ -2283,6 +2283,9 @@
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
+  .h-120 {
+    height: calc(var(--spacing) * 120);
+  }
   .min-h-full {
     min-height: 100%;
   }
@@ -2312,6 +2315,15 @@
   }
   .w-100 {
     width: calc(var(--spacing) * 100);
+  }
+  .w-110 {
+    width: calc(var(--spacing) * 110);
+  }
+  .w-120 {
+    width: calc(var(--spacing) * 120);
+  }
+  .w-130 {
+    width: calc(var(--spacing) * 130);
   }
   .w-400 {
     width: calc(var(--spacing) * 400);
@@ -2560,6 +2572,10 @@
   .badge-error {
     --badge-color: var(--color-error);
     color: var(--color-error-content);
+  }
+  .badge-warning {
+    --badge-color: var(--color-warning);
+    color: var(--color-warning-content);
   }
   .text-base-content {
     color: var(--color-base-content);
