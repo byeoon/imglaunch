@@ -3,8 +3,9 @@ require('dotenv').config()
 const express = require('express')
 const bodyparser = require('body-parser')
 const AppDataSource = require('./database')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt') // not sure if this is still needed here
 const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer')
 
 const userRoutes = require('./routes/userRoutes')
 const statsRoutes = require('./routes/statsRoutes')
@@ -14,6 +15,9 @@ const userRepo = AppDataSource.getRepository("User")
 
 const app = express();
 const path = require('path')
+const http = require('http');
+const url = require('url');
+
 /* 
 var errorHandler = require('express-error-handler'),
   handler = errorHandler({
@@ -23,6 +27,14 @@ var errorHandler = require('express-error-handler'),
     }
   });
 */
+
+var transporter = nodemailer.createTransport({
+  service:'Gmail', // ?
+  auth: {
+      user: process.env.EMAIL_NAME,
+      pass: process.env.EMAIL_PASSWORD
+ }
+});
 
 const PORT = process.env.PORT || 3010
 const HOST = process.env.HOST || "127.0.0.1"
@@ -47,6 +59,8 @@ AppDataSource.initialize().then(() => {
 }).catch((error) => {
     console.log("Database err:", error.message)
 })
+
+
 
 const verifyToken = (req, res, next) => {  
   const token = req.headers['Authorization'];
@@ -79,4 +93,13 @@ app.get('/api/email', verifyToken, async (req, res) => {
       }
 });
   
+// TODO: this is a proof of concept
+function sendRecoveryEmail(specifiedEmail) {
+  var mail = {
+    from: process.env.EMAIL_NAME,
+    to: specifiedEmail,
+    subject: 'MyShare Account Recovery',
+    text:'You have requested to recover your account details.'
+}
+}
 
