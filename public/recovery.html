@@ -62,19 +62,14 @@
       <div class="card-body">
         <div
           class="container"
-          style="
-            display: grid;
-            align-items: center;
-            grid-template-columns: 1fr 1fr 1fr;
-            column-gap: 2px;
-          "
-        >
+          style="display: grid; align-items: center; grid-template-columns: 1fr 1fr 1fr; column-gap: 2px;">
           <img
             src="https://myshare.haydar.dev/img/myshare_white.png"
             style="height: 64px; width: 64px"
           />
-          <h2 class="text-2xl font-bold py-2">Recovery</h2>
+          <h2 class="text-2xl font-bold py-2">Account Recovery</h2>
         </div>
+        <h3>Please enter the email associated to your account.</h3>
 
         <input id="email" placeholder="Email" class="input input-bordered" />
         <button
@@ -84,7 +79,7 @@
           type="submit"
           onClick="postToServer()"
         >
-        Send Email
+        Send Link
         </button>
       </div>
     </div>

@@ -53,13 +53,12 @@
 <!-- MyShare Modal-->
 <input type="checkbox" id="my_modal_6" class="modal-toggle" />
 <div class="modal" role="dialog">
-  <div class="modal-box space-y-3">
-    <h2 class="text-lg font-bold">Create a Share</h2>
-    <p>For now, MyShare only supports text. In a later update we will bring image support too.</p>
-    <input type="text" id="shareInput_title" placeholder="Title" class="input input-bordered w-full max-w-xs" />
-    <textarea class="textarea textarea-bordered w-full max-w-xs" id="shareInput_content" placeholder="Content"></textarea>
+  <div class="modal-box space-y-3 shadow-2xl border border-primary">
+    <h2 class="text-lg font-bold">Create a Note</h2>
+    <p>For now, MyShare only supports text notes. In a later update we will bring image support too.</p>
+    <input type="text" id="shareInput_title" placeholder="Title" class="input w-full max-w-xs" />
+    <textarea class="textarea w-full max-w-xs" id="shareInput_content" placeholder="Content"></textarea>
     <div class="modal-action">
-     
       <label for="my_modal_6" class="btn">Cancel</label>
       <label for="my_modal_6" class="btn bg-success text-white" onClick="saveShare()">Save</label>
     </div>
