@@ -1853,6 +1853,9 @@
       gap: calc(0.25rem * 4);
     }
   }
+  .m-4 {
+    margin: calc(var(--spacing) * 4);
+  }
   .filter {
     display: flex;
     flex-wrap: wrap;
@@ -1894,6 +1897,9 @@
         opacity: 0%;
       }
     }
+  }
+  .my-4 {
+    margin-block: calc(var(--spacing) * 4);
   }
   .input {
     .label {
@@ -1952,8 +1958,23 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
   .mt-3 {
     margin-top: calc(var(--spacing) * 3);
+  }
+  .mt-4 {
+    margin-top: calc(var(--spacing) * 4);
+  }
+  .mt-8 {
+    margin-top: calc(var(--spacing) * 8);
+  }
+  .mt-12 {
+    margin-top: calc(var(--spacing) * 12);
+  }
+  .mt-16 {
+    margin-top: calc(var(--spacing) * 16);
   }
   .status {
     display: inline-block;
@@ -2109,6 +2130,15 @@
     white-space: nowrap;
     color: color-mix(in oklab, currentColor 60%, transparent);
     &:has(input) {
+      cursor: pointer;
+    }
+  }
+  .fieldset-label {
+    display: flex;
+    align-items: center;
+    gap: calc(0.25rem * 1.5);
+    color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+    &:is(label, a), &:has(input) {
       cursor: pointer;
     }
   }
@@ -2498,8 +2528,14 @@
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
+  .p-8 {
+    padding: calc(var(--spacing) * 8);
+  }
   .p-10 {
     padding: calc(var(--spacing) * 10);
+  }
+  .p-12 {
+    padding: calc(var(--spacing) * 12);
   }
   .menu-title {
     padding-inline: calc(0.25rem * 3);

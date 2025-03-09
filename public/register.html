@@ -60,18 +60,19 @@
 <div class="hero bg-base-200 min-h-screen">
 <div class="card card-border bg-base-300 w-80 shadow-xl border-base-100">
     <div class="card-body">
-        <div class="container" style="display: grid;align-items: center; grid-template-columns: 1fr 1fr 1fr;column-gap: 2px;">
+        <div class="container" style="display: grid;align-items: center; grid-template-columns: 1fr 1fr 1fr;column-gap: 2px; padding: 8px;">
          <img src="https://myshare.haydar.dev/img/myshare_white.png" style="height: 64px; width: 64px;">
          <h2 class="text-2xl font-bold py-2">Register</h2>
       </div>
       
-      <input id="email" type="email" placeholder="Email" class="input validator input-bordered p-3" />
-      <input id="username" placeholder="Username" class="input input-bordered p-3" /> 
-      <input id="pw" type="password" placeholder="Password" class="input input-bordered p-3" />
-      
-      <label class="label cursor-pointer">
-        I have read the TOS
-        <input id="tosCheckbox" type="checkbox" class="toggle" />
+      <input id="email" type="email" placeholder="Email" class="input validator input-bordered p-4" />
+      <input id="username" placeholder="Username" class="input input-bordered p-4 mt-2" /> 
+      <input id="pw" type="password" placeholder="Password" class="input input-bordered p-4 mt-2" />
+
+        <label class="fieldset-label">
+          <input type="checkbox" class="checkbox my-4" id="tosCheckbox" />
+          You have read & agreed to our TOS
+        </label>
       </label>
       <button class="btn btn-primary" id="register" onClick="postToServer()">Create Account</button>
       <div class="divider"></div>
