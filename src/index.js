@@ -52,7 +52,7 @@ AppDataSource.initialize().then(() => {
 
 
 const verifyToken = (req, res, next) => {  
-  const token = req.headers['Authorization'];
+  const token = req.headers['authorization'];
   if (!token) {
     console.log(req.headers);
       console.log("Not signed in with a token.");
@@ -70,7 +70,6 @@ const verifyToken = (req, res, next) => {
 };
 
 app.get('/api/email', verifyToken, async (req, res) => {
-  const token = req.headers['Authorization'];
     try {
         const user = await userRepo.findOneBy({ email: req.user.email });
         if (!user) {

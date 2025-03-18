@@ -57,7 +57,7 @@ router.post('/users/login',async(req,res) => {
     }
 
     const token = jwt.sign({ email: user.email }, 'secret');
-    res.status(200).json({ token });
+    res.json({ token });
     console.log("New user signed in with token: " + token);
 })
 
@@ -82,7 +82,7 @@ router.post('/users/accountrecovery',async(req,res) => {
     transporter.sendMail(mail, function(error, info) {
         if (error) {
             console.log(error);
-            console.log(process.env.EMAIL_NAME + "\ " + process.env.EMAIL_PASSWORD)
+       //     console.log(process.env.EMAIL_NAME + "\ " + process.env.EMAIL_PASSWORD)
         } else {
             console.log('Email sent: ' + info.response)
         }
