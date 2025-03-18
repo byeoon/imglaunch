@@ -1,47 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="/css/app.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico">
-    <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="/css/app.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico">
+  <style>
     .multiline {
       white-space: pre-wrap;
     }
-</style>
+  </style>
 </head>
 
-<div class="navbar bg-base-300">
-  <div class="flex-1">
-    <img src="https://myshare.haydar.dev/img/myshare_black.png" style="height: 64px; width: 64px;">
-    <a class="btn btn-ghost text-xl" href="https://myshare.haydar.dev">MyShare</a>
+<div class="navbar bg-base-100 shadow-sm">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+        </svg>
+      </div>
+      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+        <li><a onclick="location.href='/download.html';">Download</a></li>
+        <li><a onclick="location.href='/credits.html';">Credits</a></li>
+      </ul>
+    </div>
+    <img class="" src="https://myshare.haydar.dev/img/myshare_white.png" style="height: 64px; width: 64px;">
+    <a class="btn btn-ghost text-xl">MyShare</a>
   </div>
-  <div class="flex-none">
-    <ul class="menu menu-horizontal px-4">
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
       <li><a onclick="location.href='/download.html';">Download</a></li>
       <li><a onclick="location.href='/credits.html';">Credits</a></li>
     </ul>
-    <div class="divider divider-horizontal"></div>
+  </div>
+
+  <div class="navbar-end">
     <label class="swap swap-rotate">
       <input type="checkbox" class="theme-controller" value="light" />
-      <svg
-        class="swap-off h-10 w-10 fill-current"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24">
+      <svg class="swap-off h-10 w-10 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+        style="padding: 3px; margin-right: 10px;">
         <path
           d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
       </svg>
-      <svg
-        class="swap-on h-10 w-10 fill-current"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24">
+      <svg class="swap-on h-10 w-10 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+        style="padding: 3px; margin-right: 10px;">
         <path
           d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
       </svg>
     </label>
   </div>
+</div>
 </div>
 
 
@@ -49,33 +60,32 @@
   <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col items-center justify-center">
     <h1 class="font-bold text-xl">Your Recents</h1><br>
-    
-<!-- MyShare Modal-->
-<input type="checkbox" id="my_modal_6" class="modal-toggle" />
-<div class="modal" role="dialog">
-  <div class="modal-box space-y-3 shadow-2xl border border-primary">
-    <h2 class="text-lg font-bold">Create a Note</h2>
-    <p>For now, MyShare only supports text notes. In a later update we will bring image support too.</p>
-    <input type="text" id="shareInput_title" placeholder="Title" class="input w-full max-w-xs" />
-    <textarea class="textarea w-full max-w-xs" id="shareInput_content" placeholder="Content"></textarea>
-    <div class="modal-action">
-      <label for="my_modal_6" class="btn">Cancel</label>
-      <label for="my_modal_6" class="btn bg-success text-white" onClick="saveShare()">Save</label>
+
+    <!-- MyShare Modal-->
+    <input type="checkbox" id="my_modal_6" class="modal-toggle" />
+    <div class="modal" role="dialog">
+      <div class="modal-box space-y-3 shadow-2xl border border-primary">
+        <h2 class="text-lg font-bold">Create a Note</h2>
+        <p>For now, MyShare only supports text notes. In a later update we will bring image support too.</p>
+        <input type="text" id="shareInput_title" placeholder="Title" class="input w-full max-w-xs" />
+        <textarea class="textarea w-full max-w-xs" id="shareInput_content" placeholder="Content"></textarea>
+        <div class="modal-action">
+          <label for="my_modal_6" class="btn">Cancel</label>
+          <label for="my_modal_6" class="btn bg-success text-white" onClick="saveShare()">Save</label>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <!-- The Notes -->
+    <div id="notes" class="flex flex-wrap gap-8 justify-center">
+
     </div>
   </div>
-</div>
-    <br>
-    <!-- Here is where I want the text / images to load dynamically. (Aka get it from database)-->
-    <!--WIP: style=`display: grid; grid-template-columns: repeat(3,1fr);` 
-      
-    -->
-    <div id="notes" class="flex gap-8 items-center"> <!-- help. i only want 3 in 1 row but i cant figure it out even tho its flex/flexbox but its being stubborn-->
-
-      </div>
-      </div>  
   <div class="drawer-side">
     <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
     <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+      <h3 id="hellousername" class="text-lg font-bold p-2">Hello, {undefined}</h3>
       <label for="my_modal_6" class="btn bg-primary text-white">Create a Note</label>
       <li class=""></li> <!--Divider-->
       <li><a>Upload Settings</a></li>
@@ -85,11 +95,11 @@
     </ul>
   </div>
 </div>
+
 </html>
-<script type="text/javascript" src="getShareDetails.js"></script>
 <script>
 
-async function isLoggedIn() {
+  async function isLoggedIn() {
     try {
       const response = await fetch('https://myshare.haydar.dev/api/email', {
         method: 'GET',
@@ -99,89 +109,90 @@ async function isLoggedIn() {
         }
       });
       if (!response.ok) {
-        throw new Error('err');
+        throw new Error('You are not authenticated!');
         console.log(err);
-        alert(err);
+        window.location.replace("https://myshare.haydar.dev/login.html");
       }
       const responseData = await response.json();
-      alert('succeeded, your email is ' + responseData.email);
+      document.getElementById("hellousername").innerHTML = `Hello, ${responseData.username}`;
+      localStorage.setItem("userId", responseData.userId); // wip might change
     } catch (error) {
-      alert('err:', error);
+      alert('Error while authenticating:', error);
     }
-}
-isLoggedIn();
+  }
+  isLoggedIn();
 
-async function saveShare() {
-  let user = "TestUser"
-  let textcontent = document.getElementById("shareInput_content").value;
-  let title = document.getElementById("shareInput_title").value;
-  const userData = {
-      author: user,
+  async function saveShare() {
+    let textcontent = document.getElementById("shareInput_content").value;
+    let title = document.getElementById("shareInput_title").value;
+    const userData = {
       title: title,
       content: textcontent
     };
     try {
-      const response = await fetch('https://myshare.haydar.dev/api/users/savenote', {
+      const response = await fetch('https://myshare.haydar.dev/api/notes/create', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'authorization-id': localStorage.getItem("userId"),
+          'authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(userData)
       });
       if (!response.ok) {
-        throw new Error('err');
+        throw new Error('You are not signed in!');
         console.log(err);
+        window.location.replace("https://myshare.haydar.dev/login.html");
       }
       const responseData = await response.json();
       alert('note made');
     } catch (error) {
       console.error('err:', error);
     }
-}
+  }
 
-async function loadShares() {
-  let user = "TestUser"
-  const userData = {
-      author: user
-    };
+  async function loadShares() {
     try {
-      const response = await fetch('https://myshare.haydar.dev/api/users/getnotes', {
-        method: 'POST',
+      const response = await fetch('https://myshare.haydar.dev/api/notes/get', {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
+          'Content-Type': 'application/json',
+          'authorization': localStorage.getItem("token"),
+          'authorization-id': localStorage.getItem("userId")
+        }
       });
       if (!response.ok) {
-        throw new Error('err');
-        console.log(err);
+        throw new Error('Failed to fetch notes');
       }
       const responseData = await response.json();
-      console.log('FOUND sstuff' + responseData);
+      const notesContainer = document.getElementById("notes");
+      notesContainer.innerHTML = '';
+
+      responseData.notes.forEach(note => {
+        const content = `
+                <div class="card bg-base-300 w-96 shadow-xl">
+                    <div class="card-body">
+                        <h2 id="note-title" class="card-title">
+                            ${note.title}
+                        </h2>
+                        <p id="note-content" class="multiline">
+                            ${note.content}
+                        </p>
+                        <div id="badges" class="card-actions justify-end">
+                            <div class="badge badge-outline badge-error">important</div>
+                            <div class="badge badge-outline">no expiration</div>
+                        </div>
+                        <button class="btn btn-sm" id="openNote()">View</button>
+                    </div>
+                </div>
+            `;
+        notesContainer.innerHTML += content;
+      });
     } catch (error) {
-      console.error('err:', error);
+      console.error('Error:', error);
     }
+  }
 
-  let TITLE = "Title";
-  let content = `
-  <div class="card bg-base-300 w-96 shadow-xl">
-      <div class="card-body">
-        <h2 id="note-title" class="card-title">
-          ${TITLE}
-        </h2>
-        <p id="note-content" class="multiline">
-          Description
-        </p>
-        <div id="badges" class="card-actions justify-end">
-          <div class="badge badge-outline badge-error">important</div>
-          <div class="badge badge-outline">no expiration</div>
-        </div>
-        <button class="btn btn-sm" id="openNote()">View</button>
-      </div>
-    </div>
-    `;
-    document.getElementById("notes").innerHTML += content;
-}
 
-loadShares();
+  loadShares();
 </script>

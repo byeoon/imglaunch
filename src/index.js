@@ -49,14 +49,11 @@ AppDataSource.initialize().then(() => {
     console.log("Database err:", error.message)
 })
 
-
-
 const verifyToken = (req, res, next) => {  
   const token = req.headers['authorization'];
   if (!token) {
-    console.log(req.headers);
-      console.log("Not signed in with a token.");
-    return res.status(401).json({ error: 'Unauthorized' });
+    console.log("User does not have a token.");
+    return res.status(401).json({ error: 'You are not signed in.' });
   }
     jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
@@ -75,7 +72,11 @@ app.get('/api/email', verifyToken, async (req, res) => {
         if (!user) {
           return res.status(404).json({ error: 'User not found' });
         }
-        res.status(200).json({ email: user.email });
+        res.status(200).json({ 
+          userId: user.id,
+          email: user.email, 
+          username: user.username
+         });
       } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
       }

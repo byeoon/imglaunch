@@ -38,7 +38,7 @@ router.post("/users", async (req, res) => {
     }
 })
 
-router.post('/users/login',async(req,res) => {
+router.post('/users/login', async(req,res) => {
     const { email, password } = req.body;
     const userRepo = AppDataSource.getRepository("User");
     const user = await userRepo.findOneBy({ email: email });
