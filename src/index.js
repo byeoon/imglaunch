@@ -3,9 +3,8 @@ require('dotenv').config()
 const express = require('express')
 const bodyparser = require('body-parser')
 const AppDataSource = require('./database')
-const bcrypt = require('bcrypt') // not sure if this is still needed here
 const jwt = require('jsonwebtoken')
-
+let ejs = require('ejs')
 const userRoutes = require('./routes/userRoutes')
 const statsRoutes = require('./routes/statsRoutes')
 const notesRoutes = require('./routes/notesRoutes')
@@ -14,16 +13,6 @@ const userRepo = AppDataSource.getRepository("User")
 
 const app = express();
 const path = require('path')
-
-/* 
-var errorHandler = require('express-error-handler'),
-  handler = errorHandler({
-    views: {
-      '404': 'https://myshare.haydar.dev/404.html',
-      '500': 'https://myshare.haydar.dev/500.html'
-    }
-  });
-*/
 
 const PORT = process.env.PORT || 3010
 const HOST = process.env.HOST || "127.0.0.1"
@@ -36,8 +25,8 @@ app.use("/api", notesRoutes)
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
@@ -80,4 +69,8 @@ app.get('/api/email', verifyToken, async (req, res) => {
       } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
       }
+});
+
+app.use((req, res, next) => {
+  res.status(404).render('404', { message: 'Page Not Found' });
 });

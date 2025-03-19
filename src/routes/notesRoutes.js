@@ -22,8 +22,7 @@ const verifyToken = (req, res, next) => {
 
 router.post("/notes/create", verifyToken, async (req, res) => {
     const userId = req.headers['authorization-id'];
-    const file = "";
-    let { title, content } = req.body;
+    let { title, content, file } = req.body;
     try {
         const noteRepo = AppDataSource.getRepository("Note");
         const note = noteRepo.create({userId, title, content, file});
@@ -68,5 +67,21 @@ router.get("/notes/get", verifyToken, async (req, res) => {
         res.status(500).json({ message: "Internal error" });
     }
 });
+
+router.get("/notes/:id", async (req, res) => {
+    const noteId = req.params.id; 
+    try {
+      const noteRepo = AppDataSource.getRepository("Note");
+      const note = await noteRepo.findOneBy({ id: noteId });
+  
+      if (!note) {
+        return res.status(404).json({ message: "Note not found." });
+      }
+      res.render('note', { note });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ message: "Internal error" });
+    }
+  });
 
 module.exports = router

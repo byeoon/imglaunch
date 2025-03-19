@@ -115,8 +115,8 @@ async function postToServer() {
       }
       const responseData = await response.json();
       console.log('user saved:', responseData);
-      alert('acc created');
-      window.location.replace("https://myshare.haydar.dev/dashboard.html");
+      alert('Please log in with your new credentials!');
+      window.location.replace("https://myshare.haydar.dev/login.html");
     } catch (error) {
       console.error('err:', error);
       window.location.replace("https://myshare.haydar.dev/register.html");

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= note.title %></title>
+    <meta content=<%= note.title %> property="og:title" />
+    <meta content=<%= note.content %> property="og:description" />
+    <meta content=<%= note.file %> property="og:image" />
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="/css/app.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico">
+    <style>
+    .multiline {
+      white-space: pre-wrap;
+    }
+    </style>
+</head>
+
+<body>
+<div class="hero bg-base-200 min-h-screen">
+  <div class="card card-bordered bg-base-100 w-120">
+      <div class="card-body card-bordered">
+        <div class="badgeDiv"> 
+          <div class="badge badge-outline badge-warning">priority</div>
+          <div class="badge badge-outline badge-error">expiring in 1d</div>
+        </div>
+            <h2 class="text-2xl font-bold py-2"><%= note.title %></h2> 
+       <img id="noteImage" src="" width="auto" height="auto" style="max-height: 480px; max-width: 480px;">  
+        <h2 class="text-s py-2 text-wrap multiline"><%= note.content %> </h2>
+        <div class="buttonHolder"> 
+          <button class="btn btn-primary" id="copyClipboard" type="submit" onClick="copyToClipboard('<%= note.content %>')">Copy Content to Clipboard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  function copyToClipboard(content) {
+    navigator.clipboard.writeText(content).then(() => {
+      alert("Content copied to clipboard!");
+    }).catch(err => {
+      console.error("Error copying text: ", err);
+    });
+  }
+
+  function updateImage()  {
+    var image = document.getElementById("noteImage");
+    image.src = `<%= note.file %>`;
+
+    var tester = new Image();
+    tester.addEventListener('error', imageNotFound);
+    tester.src = `<%= note.file %>`;
+  }
+
+  function imageNotFound() {
+    var image = document.getElementById("noteImage");
+    console.log('The image failed to load, removing from document...');
+    image.className = "hidden";
+  }
+
+  updateImage();
+</script>
+
+</html>

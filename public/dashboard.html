@@ -49,7 +49,7 @@
 <div class="drawer lg:drawer-open">
   <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col items-center justify-center">
-    <h1 class="font-bold text-xl">Your Recents</h1><br>
+    <h1 class="font-bold text-xl p-8">Your Notes</h1><br>
 
     <!-- MyShare Modal-->
     <input type="checkbox" id="my_modal_6" class="modal-toggle" />
@@ -59,6 +59,7 @@
         <p>For now, MyShare only supports text notes. In a later update we will bring image support too.</p>
         <input type="text" id="shareInput_title" placeholder="Title" class="input w-full max-w-xs" />
         <textarea class="textarea w-full max-w-xs" id="shareInput_content" placeholder="Content"></textarea>
+        <input type="text" id="shareInput_file" placeholder="Optional Image URL" class="input w-full max-w-xs" />
         <div class="modal-action">
           <label for="my_modal_6" class="btn">Cancel</label>
           <label for="my_modal_6" class="btn bg-success text-white" onClick="saveShare()">Save</label>
@@ -115,9 +116,11 @@
   async function saveShare() {
     let textcontent = document.getElementById("shareInput_content").value;
     let title = document.getElementById("shareInput_title").value;
+    let file = document.getElementById("shareInput_file").value;
     const userData = {
       title: title,
-      content: textcontent
+      content: textcontent,
+      file: file
     };
     try {
       const response = await fetch('https://myshare.haydar.dev/api/notes/create', {
@@ -135,7 +138,7 @@
         window.location.replace("https://myshare.haydar.dev/login.html");
       }
       const responseData = await response.json();
-      alert('note made');
+      loadShares();
     } catch (error) {
       console.error('err:', error);
     }
@@ -165,14 +168,12 @@
                         <h2 id="note-title" class="card-title">
                             ${note.title}
                         </h2>
-                        <p id="note-content" class="multiline">
-                            ${note.content}
-                        </p>
+                        <p id="note-content" class="multiline">${note.content}</p>
                         <div id="badges" class="card-actions justify-end">
                             <div class="badge badge-outline badge-error">important</div>
                             <div class="badge badge-outline">no expiration</div>
                         </div>
-                        <button class="btn btn-sm" id="openNote()">View</button>
+                        <a class="btn btn-sm" onClick="viewNote(${note.id})">View</a>
                     </div>
                 </div>
             `;
@@ -185,4 +186,29 @@
 
 
   loadShares();
+  
+
+  async function viewNote(id) {
+    window.location.href = `https://myshare.haydar.dev/api/notes/${id}`;
+    /*
+    try {
+      const response = await fetch(`https://myshare.haydar.dev/api/notes/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': localStorage.getItem("token"),
+          'authorization-id': localStorage.getItem("userId")
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch notes');
+      }
+      const responseData = await response.json();
+      window.location.href = `https://myshare.haydar.dev/notes/${id}`;
+  }
+  catch {
+    console.error("Error fetching note:", error);
+  }
+  */
+}
 </script>

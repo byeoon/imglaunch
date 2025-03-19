@@ -164,5 +164,22 @@
     console.log(images[choose].toString());
   };
 
-  // code for if the person is auth'd they can instantly go to the dashboard
+  async function isLoggedIn() {
+    try {
+      const response = await fetch('https://myshare.haydar.dev/api/email', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': localStorage.getItem("token")
+        }
+      });
+      if (!response.ok) {
+        throw new Error('You are not logged in!');
+      }
+      window.location.href = "https://myshare.haydar.dev/dashboard.html"
+    } catch (error) {
+
+    }
+  }
+  isLoggedIn();
 </script>
