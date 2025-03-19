@@ -22,72 +22,50 @@
     <link rel="stylesheet" href="/css/aos.css" />
   </head>
 
-  <div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-100 shadow-sm">
     <div class="navbar-start">
-      <div class="dropdown">
-        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
-        </div>
-        <ul
-          tabindex="0"
-          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-          <li><a onclick="location.href='/download.html';">Download</a></li>
-          <li><a onclick="location.href='/credits.html';">Credits</a></li>
-        </ul>
-      </div>
-     <a> <img class="" src="https://myshare.haydar.dev/img/myshare_white.png" style="height: 64px; width: 64px;"> </a>
+    <a href="https://myshare.haydar.dev"> <img class="" src="https://myshare.haydar.dev/img/myshare_white.png" style="height: 64px; width: 64px;"> </a>
     </div>
-    <div class="navbar-center hidden lg:flex">
+    <div class="navbar-end">
       <ul class="menu menu-horizontal px-1">
         <li><a onclick="location.href='/download.html';">Download</a></li>
         <li><a onclick="location.href='/credits.html';">Credits</a></li>
+        <li><a onclick="location.href='/credits.html';">Pricing</a></li>
       </ul>
-    </div>
-    
-    <div class="navbar-end">
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-          <div class="w-10 rounded-full">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+          <div class="w-14 rounded-full">
+            <img src="https://myshare.haydar.dev/img/default.png" />
           </div>
         </div>
-        <ul
-          tabindex="0"
-          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+        <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
           <li> <a href="https://myshare.haydar.dev/login.html" id="dd-login" class="justify-between">Login</a> </li>
           <li> <a id="dd-profile" class="justify-between">Profile</a> </li>
-          <li><a href="https://myshare.haydar.dev/dashboard.html" id="dd-dashboard">Dashboard</a></li>
-          <li><a onClick="logout()" id="dd-logout">Logout</a></li>
+          <li><a id="dd-dashboard" href="https://myshare.haydar.dev/dashboard.html" >Dashboard</a></li>
+          <li><a id="dd-logout" onClick="logout()" >Logout</a></li>
           <div class="divider m-0"></div>
           <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-ghost justify-start" aria-label="Dark" value="default" />
           <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-ghost justify-start" aria-label="Light" value="light" />
         </ul>
       </div>
     </div>
-  </div>
+</div>
 
-  <footer class="footer footer-horizontal footer-center bg-base-200 text-base-content rounded p-10">
-    <nav class="grid grid-flow-col gap-2">
-      <a class="link link-hover" href="/about.html">About us</a> |
-      <a class="link link-hover" href="/contact.html">Contact</a> |
-      <a class="link link-hover" href="/tos.html">Terms of Service</a> |
-      <a class="link link-hover" href="/privacy.html">Privacy Policy</a> |
+  <footer class="footer footer-horizontal footer-center bg-base-300 text-base-content rounded p-10">
+    <nav class="grid grid-flow-col">
+      <a class="link link-hover" href="/about.html">About us</a> 
+      <a class="link link-hover" href="/contact.html">Contact</a> 
+      <a class="link link-hover" href="/tos.html">Terms of Service</a> 
+      <a class="link link-hover" href="/privacy.html">Privacy Policy</a> 
+      <a class="link link-hover" href="https://github.com/MySharee">GitHub</a> 
     </nav>
-    <nav>
-      <div class="grid grid-flow-col gap-2">
-        <a href="https://github.com/MySharee">
-          <img src="img/rie.png" width="32px" height="32px">
-        </a>
-      </div>
-    </nav>
-    <aside>
-      <p>Copyright © 2025 MyShare All right reserved</p>
-    </aside>
+      <p class="p-0">Copyright © 2025 MyShare All right reserved</p>
   </footer>
 </html>
 
 <script>
 
+// is this a good practice? probably not...
 async function isLoggedIn() {
     try {
       const response = await fetch('https://myshare.haydar.dev/api/email', {
@@ -99,14 +77,17 @@ async function isLoggedIn() {
       });
       if (!response.ok) {
         throw new Error('You are not logged in!');
-        document.getElementById("dd-login").style.visibility = "block";
-        document.getElementById("dd-logout").style.visibility = "hidden";
-        document.getElementById("dd-dashboard").style.visibility = "hidden";
+        document.getElementById("dd-login").style.display = "block";
+        document.getElementById("dd-profile").style.display = "none";
+        document.getElementById("dd-logout").style.display = "none";
+        document.getElementById("dd-dashboard").style.display = "none";
       }
-    //  window.location.href = "https://myshare.haydar.dev/dashboard.html"
-    document.getElementById("dd-login").style.visibility = "hidden";
+    document.getElementById("dd-login").style.display = "none";
     } catch (error) {
-
+      document.getElementById("dd-login").style.display = "block";
+      document.getElementById("dd-profile").style.display = "none";
+      document.getElementById("dd-logout").style.display = "none";
+      document.getElementById("dd-dashboard").style.display = "none";
     }
   }
   isLoggedIn();
@@ -115,5 +96,5 @@ async function isLoggedIn() {
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
   window.location.href = "https://myshare.haydar.dev";
-  }
+}  
 </script>

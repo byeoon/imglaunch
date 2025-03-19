@@ -42,7 +42,7 @@ const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
   if (!token) {
     console.log("User does not have a token.");
-    return res.status(401).json({ error: 'You are not signed in.' });
+    return res.status(403).json({ error: 'You are not signed in.' });
   }
     jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
@@ -50,7 +50,7 @@ const verifyToken = (req, res, next) => {
         return res.status(401).json({ error: 'Unauthorized' });
       }
       req.user = decoded;
-      console.log("Valid token, " + decoded);
+      console.log("Valid token");
       next();
     });
 };
@@ -73,4 +73,8 @@ app.get('/api/email', verifyToken, async (req, res) => {
 
 app.use((req, res, next) => {
   res.status(404).render('404', { message: 'Page Not Found' });
+});
+
+app.use((req, res, next) => {
+  res.status(403).render('403', { message: 'Forbidden' });
 });

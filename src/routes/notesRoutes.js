@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
     const token = req.headers['authorization'];
     if (!token) {
       console.log("User does not have a token.");
-      return res.status(401).json({ error: 'You are not signed in.' });
+      return res.status(403).json({ error: 'You are not signed in.' });
     }
       jwt.verify(token, 'secret', (err, decoded) => {
         if (err) {
