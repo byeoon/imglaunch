@@ -4,7 +4,6 @@ const express = require('express')
 const bodyparser = require('body-parser')
 const AppDataSource = require('./database')
 const jwt = require('jsonwebtoken')
-let ejs = require('ejs')
 const userRoutes = require('./routes/userRoutes')
 const statsRoutes = require('./routes/statsRoutes')
 const notesRoutes = require('./routes/notesRoutes')
@@ -20,10 +19,8 @@ const HOST = process.env.HOST || "127.0.0.1"
 app.use(bodyparser.json())
 app.use("/api", userRoutes)
 app.use("/api", statsRoutes)
-app.use("/api", notesRoutes)
-
+app.use("/api", notesRoutes) // todo remove prefix
 app.use(express.static(path.join(__dirname, '..', 'public')));
-
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -73,8 +70,4 @@ app.get('/api/email', verifyToken, async (req, res) => {
 
 app.use((req, res, next) => {
   res.status(404).render('404', { message: 'Page Not Found' });
-});
-
-app.use((req, res, next) => {
-  res.status(403).render('403', { message: 'Forbidden' });
 });
