@@ -67,6 +67,22 @@
     </div>
     <br>
 
+
+      <!-- MyShare Modal For Deleting-->
+      <input type="checkbox" id="deleteModal" class="modal-toggle" />
+      <div class="modal" role="dialog">
+        <div class="modal-box space-y-3 shadow-2xl border border-primary">
+          <h2 class="text-lg font-bold">Delete Note</h2>
+          <p>Type the ID of the note you want to delete (Note: Very primitive, will come up with a better deletion system soon). I CAN SEE WHAT YOU ARE TRYING TO DELETE SO DON'T DO ANYTHING SUSPCIOUS WHILE IT'S NOT PROPERLY SET UP YET</p>
+          <input type="text" id="deleteInput_id" placeholder="ID" class="input w-full max-w-xs" />
+          <div class="modal-action">
+            <label for="deleteModal" class="btn">Cancel</label>
+          <label for="deleteModal" class="btn bg-error text-white" onClick="deleteShare()">Delete</label>
+          </div>
+        </div>
+      </div>
+      <br>
+
     <!--Notes-->
     <div id="notes" class="flex flex-wrap gap-8 justify-center">
 
@@ -81,7 +97,7 @@
       <li><a>Upload Settings</a></li>
       <li><a>Embed Configuration</a></li>
       <li class=""></li> <!--Divider-->
-      <li><a class="text-red-400" id="deleteMode">Delete Notes</a></li>
+     <li><label for="deleteModal" class="text-red-400" id="deleteMode">Delete Notes</label></li> 
     </ul>
   </div>
 </div>
@@ -172,6 +188,7 @@
       const notesContainer = document.getElementById("notes");
       notesContainer.innerHTML = '';
 
+
       responseData.notes.forEach(note => {
         const content = `
                 <div class="card bg-base-300 w-96 shadow-xl">
@@ -186,6 +203,7 @@
                         </div>
                         <a class="btn btn-sm" onClick="viewNote(${note.id})">View</a>
                     </div>
+                    <div class="absolute top-2 right-2 text-lg font-bold">#${note.id}</div>
                 </div>
             `;
         notesContainer.innerHTML += content;
@@ -221,6 +239,33 @@
     console.error("Error fetching note:", error);
   }
   */
+}
+
+
+async function deleteShare(id) {
+  const noteId = document.getElementById("deleteInput_id").value;
+  const userData = {
+      noteId: noteId,
+      userId: localStorage.getItem("userId")
+    };
+
+  try {
+      const response = await fetch(`https://myshare.haydar.dev/api/notes/delete`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': localStorage.getItem("token")
+        },
+        body: JSON.stringify(userData)
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch notes');
+      }
+      loadShares(); // Reload shares since it's deleted now.
+  }
+  catch {
+    console.error("Error deleting note:", error);
+  }
 }
 
 function logout() {

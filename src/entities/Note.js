@@ -16,7 +16,7 @@ module.exports = new EntitySchema({
             type: "varchar"
         },
         content: {
-            type: "varchar"
+            type: "text"
         },
         file: {
             type: "varchar"

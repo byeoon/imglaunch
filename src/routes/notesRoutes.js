@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
           return res.status(401).json({ error: 'Unauthorized' });
         }
         req.user = decoded;
-        console.log("Valid token, " + decoded);
+        console.log("[Notes] Valid token");
         next();
       });
   };
@@ -28,7 +28,6 @@ router.post("/notes/create", verifyToken, async (req, res) => {
         const note = noteRepo.create({userId, title, content, file});
         const newNote = await noteRepo.save(note)
         
-      //  res.status(500).json({message : "This route is not finished yet."});
       res.status(201).json({ message: "Note made.", note : newNote})
     } catch (error) {
         console.log(error.message)
@@ -36,10 +35,14 @@ router.post("/notes/create", verifyToken, async (req, res) => {
     }
 })
 
-router.get("/notes/delete", verifyToken, async (req, res) => {
+router.post("/notes/delete", verifyToken, async (req, res) => {
+  let { noteId, userId } = req.body;
     try {
+      console.log("user " + userId + " tried to delete " + noteId)
         const noteRepo = AppDataSource.getRepository("Note");
-        res.status(500).json({message : "This route is not finished yet."});
+        const note = await noteRepo.findOneBy({ id: noteId });
+        noteRepo.remove(note);
+        res.status(201).json({ message: "Note deleted (I hope.)"})
     } catch (error) {
         console.log(error.message)
         res.status(500).json({message : "internal error"})
