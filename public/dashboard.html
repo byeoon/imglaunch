@@ -154,7 +154,7 @@
     let fileUploaded = document.getElementById("shareInput_fileUpload").files[0];
 
     if(fileUploaded != null) {
-      uploadImage();
+      alert("This feature is still being implemented.");
      }
 
     const userData = {
@@ -211,7 +211,7 @@
                         <h2 id="note-title" class="card-title">
                             ${note.title}
                         </h2>
-                        <p id="note-content" class="multiline">${smallnote}</p>
+                        <p id="note-content" class="multiline break-words">${smallnote}</p>
                         <div id="badges" class="card-actions justify-end">
                             <div class="badge badge-outline badge-error">important</div>
                             <div class="badge badge-outline">no expiration</div>

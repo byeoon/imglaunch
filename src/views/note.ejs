@@ -26,7 +26,7 @@
         </div>
             <h2 class="text-2xl font-bold py-2"><%= note.title %></h2> 
        <img id="noteImage" src="" width="auto" height="auto" style="max-height: 480px; max-width: 480px;">  
-        <h2 class="text-s py-2 text-wrap multiline"><%= note.content %> </h2>
+        <h2 class="text-s py-2 text-wrap multiline break-words"><%= note.content %> </h2>
         <div class="buttonHolder"> 
           <button class="btn btn-primary btn-sm" id="copyClipboard" type="submit" onClick="copyToClipboard('<%= note.content %>')">Copy Content</button>
           <button class="btn btn-primary btn-sm" id="copyClipboardImg" type="submit" onClick="copyToClipboardImg('<%= note.file %>')">Copy Image</button>

@@ -70,10 +70,10 @@ async function postToServer() {
       return;
     }
 
-    if(password.textContent.length <= 8) {
-     alert("Please use a password that has 8 characters or more.");
-     return;
-    } 
+  //  if(password.textContent.length < 8) {
+  //   alert("Please use a password that has 8 characters or more.");
+  //   return;
+  //  } 
 
      const userData = {
       email: email,
@@ -98,6 +98,7 @@ async function postToServer() {
       window.location.replace("https://myshare.haydar.dev/login.html");
     } catch (error) {
       console.error('err:', error);
+      alert("That's not supposed to happen.. there was an error making your account. Please try again! Error: " + error);
       window.location.replace("https://myshare.haydar.dev/register.html");
     }
   }
