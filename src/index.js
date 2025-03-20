@@ -38,16 +38,16 @@ AppDataSource.initialize().then(() => {
 const verifyToken = (req, res, next) => {  
   const token = req.headers['authorization'];
   if (!token) {
-    console.log("User does not have a token.");
+    console.log("[Security] User does not have a token.");
     return res.status(403).json({ error: 'You are not signed in.' });
   }
     jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
-        console.log("Invalid token.");
+        console.log("[Security] User has invalid token.");
         return res.status(401).json({ error: 'Unauthorized' });
       }
       req.user = decoded;
-      console.log("Valid token");
+      console.log("[Security] Valid token");
       next();
     });
 };

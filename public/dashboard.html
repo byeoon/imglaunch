@@ -53,12 +53,19 @@
     <!-- MyShare Modal-->
     <input type="checkbox" id="my_modal_6" class="modal-toggle" />
     <div class="modal" role="dialog">
-      <div class="modal-box space-y-3 shadow-2xl border border-primary">
+      <div class="modal-box space-y-3 shadow-2xl border border-primary max-w-xl">
         <h2 class="text-lg font-bold">Create a Note</h2>
-<!--        <p>For now, MyShare only supports text notes. In a later update we will bring image support too.</p> -->
+       <p>Upload text or images.</p>
         <input type="text" id="shareInput_title" placeholder="Title" class="input w-full max-w-xs" />
         <textarea class="textarea w-full max-w-xs" id="shareInput_content" placeholder="Content"></textarea>
-        <input type="text" id="shareInput_file" placeholder="Optional Image URL" class="input w-full max-w-xs" />
+        <br>
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Upload a file</legend>
+          <input type="file" id="shareInput_fileUpload" class="file-input" />
+          <label class="fieldset-label">Max size: 1GB</label>
+          <p>Or, you can link to an image</p>
+          <input type="text" id="shareInput_file" placeholder="Image URL" class="input w-full max-w-xs" />
+        </fieldset>
         <div class="modal-action">
           <label for="my_modal_6" class="btn">Cancel</label>
           <label for="my_modal_6" class="btn bg-success text-white" onClick="saveShare()">Save</label>
@@ -73,7 +80,7 @@
       <div class="modal" role="dialog">
         <div class="modal-box space-y-3 shadow-2xl border border-primary">
           <h2 class="text-lg font-bold">Delete Note</h2>
-          <p>Type the ID of the note you want to delete (Note: Very primitive, will come up with a better deletion system soon). I CAN SEE WHAT YOU ARE TRYING TO DELETE SO DON'T DO ANYTHING SUSPCIOUS WHILE IT'S NOT PROPERLY SET UP YET</p>
+          <p>Type the ID of the note you want to delete (Note: Very primitive, will come up with a better deletion system soon).</p>
           <input type="text" id="deleteInput_id" placeholder="ID" class="input w-full max-w-xs" />
           <div class="modal-action">
             <label for="deleteModal" class="btn">Cancel</label>
@@ -144,11 +151,18 @@
     let textcontent = document.getElementById("shareInput_content").value;
     let title = document.getElementById("shareInput_title").value;
     let file = document.getElementById("shareInput_file").value;
+    let fileUploaded = document.getElementById("shareInput_fileUpload").files[0];
+
+    if(fileUploaded != null) {
+      uploadImage();
+     }
+
     const userData = {
       title: title,
       content: textcontent,
       file: file
     };
+
     try {
       const response = await fetch('https://myshare.haydar.dev/api/notes/create', {
         method: 'POST',
@@ -190,18 +204,21 @@
 
 
       responseData.notes.forEach(note => {
+        const smallnote = note.content.length > 60 ? note.content.substring(0, 80) + '....' : note.content; 
         const content = `
-                <div class="card bg-base-300 w-96 shadow-xl">
+                <div class="card bg-base-300 w-96 shadow-2xl card-border border-base-100">
                     <div class="card-body">
                         <h2 id="note-title" class="card-title">
                             ${note.title}
                         </h2>
-                        <p id="note-content" class="multiline">${note.content}</p>
+                        <p id="note-content" class="multiline">${smallnote}</p>
                         <div id="badges" class="card-actions justify-end">
                             <div class="badge badge-outline badge-error">important</div>
                             <div class="badge badge-outline">no expiration</div>
                         </div>
+                        
                         <a class="btn btn-sm" onClick="viewNote(${note.id})">View</a>
+                        <a class="btn btn-sm" onClick="copyToClipboard(${note.id})">Copy Content</a>
                     </div>
                     <div class="absolute top-2 right-2 text-lg font-bold">#${note.id}</div>
                 </div>
@@ -212,33 +229,10 @@
       console.error('Error:', error);
     }
   }
-
-
   loadShares();
-  
 
-  async function viewNote(id) {
-    window.location.href = `https://myshare.haydar.dev/api/notes/${id}`;
-    /*
-    try {
-      const response = await fetch(`https://myshare.haydar.dev/api/notes/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'authorization': localStorage.getItem("token"),
-          'authorization-id': localStorage.getItem("userId")
-        }
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch notes');
-      }
-      const responseData = await response.json();
-      window.location.href = `https://myshare.haydar.dev/notes/${id}`;
-  }
-  catch {
-    console.error("Error fetching note:", error);
-  }
-  */
+async function viewNote(id) {
+  window.location.href = `https://myshare.haydar.dev/api/notes/${id}`;
 }
 
 
@@ -267,6 +261,14 @@ async function deleteShare(id) {
     console.error("Error deleting note:", error);
   }
 }
+
+function copyToClipboard(content) {
+    navigator.clipboard.writeText(content).then(() => {
+      console.log("Copied! " + content);
+    }).catch(err => {
+      console.log("Error copying text: ", err);
+    });
+  }
 
 function logout() {
   localStorage.removeItem("token");

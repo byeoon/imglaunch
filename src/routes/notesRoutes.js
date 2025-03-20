@@ -6,12 +6,12 @@ const router = express.Router();
 const verifyToken = (req, res, next) => {  
     const token = req.headers['authorization'];
     if (!token) {
-      console.log("User does not have a token.");
+      console.log("[Notes] User does not have a token.");
       return res.status(403).json({ error: 'You are not signed in.' });
     }
       jwt.verify(token, 'secret', (err, decoded) => {
         if (err) {
-          console.log("Invalid token.");
+          console.log("[Notes] User has invalid token.");
           return res.status(401).json({ error: 'Unauthorized' });
         }
         req.user = decoded;
@@ -26,29 +26,39 @@ router.post("/notes/create", verifyToken, async (req, res) => {
     try {
         const noteRepo = AppDataSource.getRepository("Note");
         const note = noteRepo.create({userId, title, content, file});
-        const newNote = await noteRepo.save(note)
+        const newNote = await noteRepo.save(note);
         
-      res.status(201).json({ message: "Note made.", note : newNote})
+      res.status(201).json({ message: "Note made.", note : newNote});
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({message : "internal error"})
+        console.log(error.message);
+        res.status(500).json({message : "internal error"});
     }
 })
 
 router.post("/notes/delete", verifyToken, async (req, res) => {
   let { noteId, userId } = req.body;
     try {
-      console.log("user " + userId + " tried to delete " + noteId)
         const noteRepo = AppDataSource.getRepository("Note");
         const note = await noteRepo.findOneBy({ id: noteId });
+
+        if(note.userId != userId) {
+          return res.status(403).json({ message: "You cannot delete notes that aren't yours."});
+      }
+
         noteRepo.remove(note);
-        res.status(201).json({ message: "Note deleted (I hope.)"})
+        res.status(201).json({ message: "Note deleted."})
     } catch (error) {
         console.log(error.message)
         res.status(500).json({message : "internal error"})
     }
 })
 
+router.post("/notes/uploadimg", verifyToken, async (req, res) => {
+ 
+})
+
+
+// gets all notes, meant for dashboard
 router.get("/notes/get", verifyToken, async (req, res) => {
     const userId = req.headers['authorization-id'];
     try {
@@ -71,15 +81,22 @@ router.get("/notes/get", verifyToken, async (req, res) => {
     }
 });
 
+// gets note details for opening them
 router.get("/notes/:id", async (req, res) => {
     const noteId = req.params.id; 
+ //   const userId = req.headers['authorization-id'];
     try {
       const noteRepo = AppDataSource.getRepository("Note");
       const note = await noteRepo.findOneBy({ id: noteId });
-  
+      
       if (!note) {
         return res.status(404).json({ message: "Note not found." });
       }
+
+  //    if(note.userId != userId) {
+  //      return res.status(403).json({message: "You do not have access to this note."});
+  //    }
+
       res.render('note', { note });
     } catch (error) {
       console.error(error.message);

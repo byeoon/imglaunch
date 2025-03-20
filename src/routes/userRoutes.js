@@ -4,8 +4,6 @@ const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
 const nodemailer = require('nodemailer')
 
-const http = require('http');
-const url = require('url');
 const router = express.Router();
 
 var transporter = nodemailer.createTransport({
@@ -25,7 +23,7 @@ router.post("/users", async (req, res) => {
             return res.status(400).json({ message : "User already exists!"})
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        password = hashedPassword; // This feels like unsafe shitcode.
+        password = hashedPassword; // This feels insecure.
 
         const user = userRepo.create({username, email, password});
         const newuser = await userRepo.save(user)
@@ -45,20 +43,18 @@ router.post('/users/login', async(req,res) => {
 
     // Could just add better handling but not now
     if (!user) {
-        console.log("no exist.");
         return res.status(401).json({ error: 'Invalid credentials' });
     }
-
     const passwordMatch = await bcrypt.compare(password, user.password);
     
     if (!passwordMatch) {
-        console.log("not the same");
-        return res.status(401).json({ error: 'Not the same password' });
+        console.log("[Security] User typed the wrong password.");
+        return res.status(401).json({ error: 'Invalid password!' });
     }
 
     const token = jwt.sign({ email: user.email }, 'secret');
     res.json({ token });
-    console.log("New user signed in with token: " + token);
+    console.log("[Security] New user signed in with token: " + token);
 })
 
 router.post('/users/accountrecovery',async(req,res) => {
@@ -68,7 +64,6 @@ router.post('/users/accountrecovery',async(req,res) => {
 
     // Could just add better handling but not now
     if (!user) {
-        console.log("no exist.");
         return res.status(401).json({ error: 'This email has not been registered.' });
     }
 
@@ -82,7 +77,6 @@ router.post('/users/accountrecovery',async(req,res) => {
     transporter.sendMail(mail, function(error, info) {
         if (error) {
             console.log(error);
-       //     console.log(process.env.EMAIL_NAME + "\ " + process.env.EMAIL_PASSWORD)
         } else {
             console.log('Email sent: ' + info.response)
         }
