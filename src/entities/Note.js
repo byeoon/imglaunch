@@ -25,6 +25,9 @@ module.exports = new EntitySchema({
             type: "simple-array",
             nullable: true
         },
+        visibility: {
+            type: "boolean"
+        }
     },
     relations : {
         author: {

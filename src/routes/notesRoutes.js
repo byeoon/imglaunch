@@ -22,10 +22,10 @@ const verifyToken = (req, res, next) => {
 
 router.post("/notes/create", verifyToken, async (req, res) => {
     const userId = req.headers['authorization-id'];
-    let { title, content, file } = req.body;
+    let { title, content, file, visibility } = req.body;
     try {
         const noteRepo = AppDataSource.getRepository("Note");
-        const note = noteRepo.create({userId, title, content, file});
+        const note = noteRepo.create({userId, title, content, file, visibility});
         const newNote = await noteRepo.save(note);
         
       res.status(201).json({ message: "Note made.", note : newNote});
@@ -84,11 +84,9 @@ router.get("/notes/get", verifyToken, async (req, res) => {
 // gets note details for opening them
 router.get("/notes/:id", async (req, res) => {
     const noteId = req.params.id; 
- //   const userId = req.headers['authorization-id'];
     try {
       const noteRepo = AppDataSource.getRepository("Note");
       const note = await noteRepo.findOneBy({ id: noteId });
-      
       if (!note) {
         return res.status(404).json({ message: "Note not found." });
       }
@@ -96,8 +94,7 @@ router.get("/notes/:id", async (req, res) => {
   //    if(note.userId != userId) {
   //      return res.status(403).json({message: "You do not have access to this note."});
   //    }
-
-      res.render('note', { note });
+   res.render('note', { note });
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Internal error" });

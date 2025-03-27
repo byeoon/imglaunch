@@ -78,7 +78,7 @@ router.post('/users/accountrecovery',async(req,res) => {
         if (error) {
             console.log(error);
         } else {
-            console.log('Email sent: ' + info.response)
+            console.log('[Security/Email] Email sent: ' + info.response)
         }
     })
 })

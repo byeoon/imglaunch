@@ -124,8 +124,6 @@
   $.get("https://myshare.haydar.dev/api/stats", (data, status) => {
     document.getElementById("totalUserValue").innerHTML = data.totalUsers;
     document.getElementById("totalNotesValue").innerHTML = data.totalNotes;
-    console.log(data);
-    console.log(status);
   });
   
   window.onload = function () {
@@ -136,7 +134,6 @@
     ];
     var choose = Math.floor(Math.random() * images.length);
     document.getElementById("bg").style.backgroundImage = `url("${images[choose]}")`;
-    console.log(images[choose].toString());
   };
 
   async function isLoggedIn() {

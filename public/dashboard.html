@@ -55,17 +55,18 @@
     <div class="modal" role="dialog">
       <div class="modal-box space-y-3 shadow-2xl border border-primary max-w-xl">
         <h2 class="text-lg font-bold">Create a Note</h2>
-       <p>Upload text or images.</p>
+       <p>Upload text or images. Uploaded images have a higher priority than links, and will be the one that gets uploaded instead.</p>
         <input type="text" id="shareInput_title" placeholder="Title" class="input w-full max-w-xs" />
         <textarea class="textarea w-full max-w-xs" id="shareInput_content" placeholder="Content"></textarea>
         <br>
         <fieldset class="fieldset">
           <legend class="fieldset-legend">Upload a file</legend>
-          <input type="file" id="shareInput_fileUpload" class="file-input" />
+          <input type="file" id="shareInput_fileUpload" class="file-input file-input-sm" />
           <label class="fieldset-label">Max size: 1GB</label>
           <p>Or, you can link to an image</p>
           <input type="text" id="shareInput_file" placeholder="Image URL" class="input w-full max-w-xs" />
         </fieldset>
+        <input type="checkbox" id="shareInput_visibility" checked="checked" class="checkbox" />Make this Note unlisted? (People with the link can view it!)
         <div class="modal-action">
           <label for="my_modal_6" class="btn">Cancel</label>
           <label for="my_modal_6" class="btn bg-success text-white" onClick="saveShare()">Save</label>
@@ -152,15 +153,17 @@
     let title = document.getElementById("shareInput_title").value;
     let file = document.getElementById("shareInput_file").value;
     let fileUploaded = document.getElementById("shareInput_fileUpload").files[0];
+    let visible = document.getElementById("shareInput_visibility").checked;
 
     if(fileUploaded != null) {
-      alert("This feature is still being implemented.");
+      alert("Uploading images is still being implemented, please wait!");
      }
 
     const userData = {
       title: title,
       content: textcontent,
-      file: file
+      file: file,
+      visibility: visible
     };
 
     try {
@@ -215,8 +218,7 @@
                         <div id="badges" class="card-actions justify-end">
                             <div class="badge badge-outline badge-error">important</div>
                             <div class="badge badge-outline">no expiration</div>
-                        </div>
-                        
+                        </div>   
                         <a class="btn btn-sm" onClick="viewNote(${note.id})">View</a>
                         <a class="btn btn-sm" onClick="copyToClipboard(${note.id})">Copy Content</a>
                     </div>

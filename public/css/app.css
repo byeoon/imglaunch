@@ -2676,6 +2676,22 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
+  .file-input-md {
+    --size: calc(var(--size-field, 0.25rem) * 10);
+    font-size: 0.875rem;
+    line-height: 2;
+    &::file-selector-button {
+      font-size: 0.875rem;
+    }
+  }
+  .file-input-sm {
+    --size: calc(var(--size-field, 0.25rem) * 8);
+    font-size: 0.75rem;
+    line-height: 1.5rem;
+    &::file-selector-button {
+      font-size: 0.75rem;
+    }
+  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
