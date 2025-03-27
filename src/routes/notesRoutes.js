@@ -1,21 +1,22 @@
 const express = require("express")
 const AppDataSource = require('../database');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { notesLogMessage } = require("../utils/Logger");
 const router = express.Router();
 
 const verifyToken = (req, res, next) => {  
     const token = req.headers['authorization'];
     if (!token) {
-      console.log("[Notes] User does not have a token.");
+      notesLogMessage("[Notes] User does not have a token.");
       return res.status(403).json({ error: 'You are not signed in.' });
     }
       jwt.verify(token, 'secret', (err, decoded) => {
         if (err) {
-          console.log("[Notes] User has invalid token.");
+          notesLogMessage("User has invalid token.");
           return res.status(401).json({ error: 'Unauthorized' });
         }
         req.user = decoded;
-        console.log("[Notes] Valid token");
+        notesLogMessage("User has valid token");
         next();
       });
   };
@@ -42,6 +43,7 @@ router.post("/notes/delete", verifyToken, async (req, res) => {
         const note = await noteRepo.findOneBy({ id: noteId });
 
         if(note.userId != userId) {
+          notesLogMessage(` / [Security] UserID ${userId} tried to delete a protected note.`)
           return res.status(403).json({ message: "You cannot delete notes that aren't yours."});
       }
 
@@ -52,11 +54,6 @@ router.post("/notes/delete", verifyToken, async (req, res) => {
         res.status(500).json({message : "internal error"})
     }
 })
-
-router.post("/notes/uploadimg", verifyToken, async (req, res) => {
- 
-})
-
 
 // gets all notes, meant for dashboard
 router.get("/notes/get", verifyToken, async (req, res) => {

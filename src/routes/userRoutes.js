@@ -3,6 +3,7 @@ const AppDataSource = require('../database')
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
 const nodemailer = require('nodemailer')
+const { securityLogMessage } = require("../utils/Logger")
 
 const router = express.Router();
 
@@ -48,13 +49,13 @@ router.post('/users/login', async(req,res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     
     if (!passwordMatch) {
-        console.log("[Security] User typed the wrong password.");
+        securityLogMessage("User typed the wrong password.");
         return res.status(401).json({ error: 'Invalid password!' });
     }
 
     const token = jwt.sign({ email: user.email }, 'secret');
     res.json({ token });
-    console.log("[Security] New user signed in with token: " + token);
+    securityLogMessage("New user signed in with token: " + token);
 })
 
 router.post('/users/accountrecovery',async(req,res) => {
@@ -78,7 +79,7 @@ router.post('/users/accountrecovery',async(req,res) => {
         if (error) {
             console.log(error);
         } else {
-            console.log('[Security/Email] Email sent: ' + info.response)
+            securityLogMessage('Email sent: ' + info.response)
         }
     })
 })

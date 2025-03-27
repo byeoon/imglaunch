@@ -7,11 +7,14 @@ const jwt = require('jsonwebtoken')
 const userRoutes = require('./routes/userRoutes')
 const statsRoutes = require('./routes/statsRoutes')
 const notesRoutes = require('./routes/notesRoutes')
+const multer = require('multer');
+const upload = multer({ dest: './uploads/' });
 
 const userRepo = AppDataSource.getRepository("User")
 
 const app = express();
 const path = require('path')
+const { coreLogMessage, securityLogMessage } = require('./utils/Logger')
 
 const PORT = process.env.PORT || 3010
 const HOST = process.env.HOST || "127.0.0.1"
@@ -30,24 +33,24 @@ app.get('/', (req, res) => {
 });
 
 AppDataSource.initialize().then(() => {
-    app.listen(PORT, () => console.log(`Server running on ${process.env.PORT} : http://myshare.haydar.dev/`))
+    app.listen(PORT, () => coreLogMessage(`Server running on ${process.env.PORT} : http://myshare.haydar.dev/`))
 }).catch((error) => {
-    console.log("Database err:", error.message)
+  coreLogMessage("Error while initializing server: ", error.message)
 })
 
 const verifyToken = (req, res, next) => {  
   const token = req.headers['authorization'];
   if (!token) {
-    console.log("[Security] User does not have a token.");
+    securityLogMessage("User does not have a token.");
     return res.status(403).json({ error: 'You are not signed in.' });
   }
     jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
-        console.log("[Security] User has invalid token.");
+        securityLogMessage("User has invalid token.");
         return res.status(401).json({ error: 'Unauthorized' });
       }
       req.user = decoded;
-      console.log("[Security] Valid token");
+      securityLogMessage("Valid token");
       next();
     });
 };
@@ -67,6 +70,12 @@ app.get('/api/email', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
       }
 });
+
+app.post("/upload", upload.single('file'), async (req, res) => {
+  console.log(req.file);
+  coreLogMessage("Image upload complete.")
+  res.send("success.");
+})
 
 app.use((req, res, next) => {
   res.status(404).render('404', { message: 'Page Not Found' });

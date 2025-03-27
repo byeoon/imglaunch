@@ -61,7 +61,7 @@
         <br>
         <fieldset class="fieldset">
           <legend class="fieldset-legend">Upload a file</legend>
-          <input type="file" id="shareInput_fileUpload" class="file-input file-input-sm" />
+          <input type="file" id="shareInput_fileUpload" name="file" class="file-input file-input-sm" />
           <label class="fieldset-label">Max size: 1GB</label>
           <p>Or, you can link to an image</p>
           <input type="text" id="shareInput_file" placeholder="Image URL" class="input w-full max-w-xs" />
@@ -156,8 +156,21 @@
     let visible = document.getElementById("shareInput_visibility").checked;
 
     if(fileUploaded != null) {
-      alert("Uploading images is still being implemented, please wait!");
-     }
+    const fileData = {
+      file: fileUploaded,
+    };
+
+    formData.append('file', fileUploaded);
+    try {
+      const response = await fetch('https://myshare.haydar.dev/api/upload', {
+        method: 'POST',
+        body: JSON.stringify(fileData),
+      });
+      alert("upload complete");
+     } catch {
+      console.log('failed');
+     };
+  }
 
     const userData = {
       title: title,

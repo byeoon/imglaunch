@@ -13,7 +13,7 @@ router.get("/stats", async (req, res) => {
 
         res.status(200).json({ totalUsers, totalNotes })
     } catch (error) {
-        console.log(error.message)
+        coreLogMessage("Error gathering main page stats: " + error.message)
         res.status(500).json({message : "internal error"})
     }
 })
