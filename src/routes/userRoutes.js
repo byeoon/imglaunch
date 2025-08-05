@@ -3,7 +3,6 @@ const AppDataSource = require('../database')
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
 const nodemailer = require('nodemailer')
-const { securityLogMessage } = require("../utils/Logger")
 
 const router = express.Router();
 
@@ -49,39 +48,11 @@ router.post('/users/login', async(req,res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     
     if (!passwordMatch) {
-        securityLogMessage("User typed the wrong password.");
         return res.status(401).json({ error: 'Invalid password!' });
     }
 
     const token = jwt.sign({ email: user.email }, 'secret');
     res.json({ token });
-    securityLogMessage("New user signed in with token: " + token);
-})
-
-router.post('/users/accountrecovery',async(req,res) => {
-    const { email } = req.body;
-    const userRepo = AppDataSource.getRepository("User");
-    const user = await userRepo.findOneBy({ email: email });
-
-    // Could just add better handling but not now
-    if (!user) {
-        return res.status(401).json({ error: 'This email has not been registered.' });
-    }
-
-    var mail = {
-        from: process.env.EMAIL_NAME,
-        to: email,
-        subject: 'MyShare Account Recovery',
-        text:'You have requested to recover your account details.'
-    } 
-
-    transporter.sendMail(mail, function(error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            securityLogMessage('Email sent: ' + info.response)
-        }
-    })
 })
 
 module.exports = router;

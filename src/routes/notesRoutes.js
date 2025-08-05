@@ -1,22 +1,18 @@
 const express = require("express")
 const AppDataSource = require('../database');
 const jwt = require('jsonwebtoken');
-const { notesLogMessage } = require("../utils/Logger");
 const router = express.Router();
 
 const verifyToken = (req, res, next) => {  
     const token = req.headers['authorization'];
     if (!token) {
-      notesLogMessage("[Notes] User does not have a token.");
       return res.status(403).json({ error: 'You are not signed in.' });
     }
       jwt.verify(token, 'secret', (err, decoded) => {
         if (err) {
-          notesLogMessage("User has invalid token.");
           return res.status(401).json({ error: 'Unauthorized' });
         }
         req.user = decoded;
-        notesLogMessage("User has valid token");
         next();
       });
   };

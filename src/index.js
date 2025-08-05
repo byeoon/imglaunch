@@ -14,7 +14,6 @@ const userRepo = AppDataSource.getRepository("User")
 
 const app = express();
 const path = require('path')
-const { coreLogMessage, securityLogMessage } = require('./utils/Logger')
 
 const PORT = process.env.PORT || 3010
 const HOST = process.env.HOST || "127.0.0.1"
@@ -33,7 +32,7 @@ app.get('/', (req, res) => {
 });
 
 AppDataSource.initialize().then(() => {
-    app.listen(PORT, () => coreLogMessage(`Server running on ${process.env.PORT} : http://myshare.haydar.dev/`))
+    app.listen(PORT, () => console.log(`Server running on ${process.env.PORT} : http://myshare.haydar.dev/`))
 }).catch((error) => {
   coreLogMessage("Error while initializing server: ", error.message)
 })
@@ -41,16 +40,13 @@ AppDataSource.initialize().then(() => {
 const verifyToken = (req, res, next) => {  
   const token = req.headers['authorization'];
   if (!token) {
-    securityLogMessage("User does not have a token.");
     return res.status(403).json({ error: 'You are not signed in.' });
   }
     jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
-        securityLogMessage("User has invalid token.");
         return res.status(401).json({ error: 'Unauthorized' });
       }
       req.user = decoded;
-      securityLogMessage("Valid token");
       next();
     });
 };
@@ -73,7 +69,7 @@ app.get('/api/email', verifyToken, async (req, res) => {
 
 app.post("/upload", upload.single('file'), async (req, res) => {
   console.log(req.file);
-  coreLogMessage("Image upload complete.")
+  console.log("Image upload complete.")
   res.send("success.");
 })
 
