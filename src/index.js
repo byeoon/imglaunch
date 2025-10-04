@@ -15,7 +15,7 @@ const userRepo = AppDataSource.getRepository("User")
 const app = express();
 const path = require('path')
 
-const PORT = process.env.PORT || 3010
+const PORT = 3069
 const HOST = process.env.HOST || "127.0.0.1"
 
 app.use(bodyparser.json())
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 AppDataSource.initialize().then(() => {
     app.listen(PORT, () => console.log(`Server running on ${process.env.PORT} : http://myshare.haydar.dev/`))
 }).catch((error) => {
-  coreLogMessage("Error while initializing server: ", error.message)
+  console.log("Error while initializing server: ", error.message)
 })
 
 const verifyToken = (req, res, next) => {  
